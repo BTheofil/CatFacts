@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import hu.tb.catfacts.domain.repository.FactRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -19,25 +20,33 @@ class MainViewModel @Inject constructor(
 
     data class State(
         val fact: String? = null,
+        val isLoading: Boolean = false,
         val isErrorHappened: String? = null,
     )
 
     fun getFact() {
         viewModelScope.launch {
             try {
+                _state.value = state.value.copy(
+                    isLoading = true
+                )
                 val success = factRepository.getFact()
                 if(success != null){
+                    delay(5500)
                     _state.value = state.value.copy(
-                        fact = success.fact
+                        fact = success.fact,
+                        isLoading = false
                     )
                 } else {
                     _state.value = state.value.copy(
-                        isErrorHappened = "Empty response found"
+                        isErrorHappened = "Empty response found",
+                        isLoading = false
                     )
                 }
             } catch (e: Exception) {
                 _state.value = state.value.copy(
-                    isErrorHappened = e.message
+                    isErrorHappened = e.message,
+                    isLoading = false
                 )
             }
         }
