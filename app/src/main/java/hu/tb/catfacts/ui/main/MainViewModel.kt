@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import hu.tb.catfacts.domain.repository.FactRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -32,7 +31,6 @@ class MainViewModel @Inject constructor(
                 )
                 val success = factRepository.getFact()
                 if(success != null){
-                    delay(5500)
                     _state.value = state.value.copy(
                         fact = success.fact,
                         isLoading = false

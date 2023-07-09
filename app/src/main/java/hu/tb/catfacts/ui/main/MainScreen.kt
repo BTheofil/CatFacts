@@ -22,12 +22,17 @@ import hu.tb.catfacts.R
 fun MainScreen(
     viewModel: MainViewModel
 ) {
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.catpawloading))
-    val progress by animateLottieCompositionAsState(composition = composition, iterations = LottieConstants.IterateForever)
-
     val state by viewModel.state.collectAsState()
 
-    if(state.isLoading){
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.catpawloading))
+
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever,
+        isPlaying = state.isLoading
+    )
+
+    if (state.isLoading) {
         Dialog(onDismissRequest = {}) {
             LottieAnimation(
                 composition = composition,
@@ -42,7 +47,7 @@ fun MainScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if(state.fact != null){
+        if (state.fact != null) {
             Text(text = state.fact!!)
         }
         OutlinedButton(onClick = {
