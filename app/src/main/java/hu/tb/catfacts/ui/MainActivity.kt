@@ -7,14 +7,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import hu.tb.catfacts.ui.main.MainScreen
 import hu.tb.catfacts.ui.main.MainViewModel
-import hu.tb.catfacts.ui.theme.CatFactsTheme
+import hu.tb.catfacts.ui.theme.AppTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            CatFactsTheme {
+            AppTheme {
                 val vm = hiltViewModel<MainViewModel>()
                 MainScreen(
                     vm
